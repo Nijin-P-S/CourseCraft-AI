@@ -1,0 +1,4 @@
+# Default owner for all paths in this repository.
+# PRs that touch these paths require approval from a listed owner
+# when branch protection has "Require review from Code Owners" enabled.
+* @Nijin-P-S
