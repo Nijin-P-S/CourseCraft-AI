@@ -7,9 +7,11 @@ import com.coursecraft.ai.lesson.model.LessonContent;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(name = "app.ai.provider", havingValue = "template", matchIfMissing = true)
 public class TemplateLessonContentGenerator implements LessonContentGenerator {
 
 	@Override
