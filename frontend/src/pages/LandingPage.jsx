@@ -24,12 +24,14 @@ const previewLessons = [
 ]
 
 function LandingPage() {
-  const { isAuthenticated, login } = useAuth()
+  const { isAuthenticated, login, provider } = useAuth()
   const navigate = useNavigate()
 
-  function handleLogin() {
-    login()
-    navigate('/dashboard')
+  async function handleLogin() {
+    await login()
+    if (provider !== 'auth0') {
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -55,7 +57,7 @@ function LandingPage() {
                 Log in
               </button>
               <button className="button" type="button" onClick={handleLogin}>
-                Start free
+                {provider === 'auth0' ? 'Log in with Auth0' : 'Start free'}
               </button>
             </>
           )}
@@ -82,8 +84,8 @@ function LandingPage() {
             </button>
           </div>
           <small>
-            No credit card required. Auth0 login can replace this demo sign-in
-            when ready.
+            No credit card required. Use demo mode locally or Auth0 when your
+            tenant variables are configured.
           </small>
         </div>
 
