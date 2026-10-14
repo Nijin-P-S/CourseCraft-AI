@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getApiErrorMessage } from '../api/client'
 import { searchYouTubeVideo } from '../api/youtube'
 
-function LessonRenderer({ blocks = [] }) {
+function LessonRenderer({ blocks = [], onAssessmentComplete }) {
   if (blocks.length === 0) {
     return <p className="muted">No lesson content has been generated yet.</p>
   }
@@ -10,13 +10,17 @@ function LessonRenderer({ blocks = [] }) {
   return (
     <div className="lesson-content">
       {blocks.map((block, index) => (
-        <ContentBlock block={block} key={`${block.type}-${index}`} />
+        <ContentBlock
+          block={block}
+          key={`${block.type}-${index}`}
+          onAssessmentComplete={onAssessmentComplete}
+        />
       ))}
     </div>
   )
 }
 
-function ContentBlock({ block }) {
+function ContentBlock({ block, onAssessmentComplete }) {
   switch (block.type) {
     case 'heading':
       return <h2>{block.text}</h2>
@@ -25,7 +29,12 @@ function ContentBlock({ block }) {
     case 'video':
       return <VideoBlock block={block} />
     case 'mcq':
-      return <McqBlock block={block} />
+      return (
+        <McqBlock
+          block={block}
+          onAssessmentComplete={onAssessmentComplete}
+        />
+      )
     case 'code':
       return (
         <pre className="code-block">
@@ -138,20 +147,82 @@ function VideoBlock({ block }) {
   )
 }
 
-function McqBlock({ block }) {
+function McqBlock({ block, onAssessmentComplete }) {
   const answerIndex = Number(block.answerIndex)
+  const [selectedIndex, setSelectedIndex] = useState(null)
+  const [submittedIndex, setSubmittedIndex] = useState(null)
+  const [isSavingScore, setIsSavingScore] = useState(false)
+  const [scoreError, setScoreError] = useState('')
+  const hasSubmitted = submittedIndex !== null
+  const isCorrect = submittedIndex === answerIndex
+
+  async function handleSubmit() {
+    if (selectedIndex === null || hasSubmitted) {
+      return
+    }
+
+    const score = selectedIndex === answerIndex ? 100 : 0
+    setSubmittedIndex(selectedIndex)
+    setIsSavingScore(Boolean(onAssessmentComplete))
+    setScoreError('')
+
+    try {
+      await onAssessmentComplete?.(score)
+    } catch (requestError) {
+      setScoreError(getApiErrorMessage(requestError))
+    } finally {
+      setIsSavingScore(false)
+    }
+  }
 
   return (
     <section className="mcq-block">
       <h3>{block.question}</h3>
-      <ol>
+      <div className="mcq-options" role="radiogroup" aria-label={block.question}>
         {(block.options || []).map((option, index) => (
-          <li className={index === answerIndex ? 'correct-answer' : ''} key={option}>
+          <button
+            className={[
+              'mcq-option',
+              selectedIndex === index ? 'selected' : '',
+              hasSubmitted && index === answerIndex ? 'correct' : '',
+              hasSubmitted && index === submittedIndex && index !== answerIndex
+                ? 'incorrect'
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            type="button"
+            role="radio"
+            aria-checked={selectedIndex === index}
+            disabled={hasSubmitted}
+            key={option}
+            onClick={() => setSelectedIndex(index)}
+          >
             {option}
-          </li>
+          </button>
         ))}
-      </ol>
-      {block.explanation && <p className="muted">{block.explanation}</p>}
+      </div>
+
+      <div className="mcq-actions">
+        <button
+          className="button secondary"
+          type="button"
+          onClick={handleSubmit}
+          disabled={selectedIndex === null || hasSubmitted || isSavingScore}
+        >
+          {isSavingScore ? 'Saving score...' : 'Submit answer'}
+        </button>
+        {hasSubmitted && (
+          <span className={isCorrect ? 'success-message' : 'error-message'}>
+            {isCorrect ? 'Correct. Score saved.' : 'Not quite. Score saved.'}
+          </span>
+        )}
+      </div>
+
+      {hasSubmitted && block.explanation && (
+        <p className="muted">{block.explanation}</p>
+      )}
+      {scoreError && <p className="error-message">{scoreError}</p>}
     </section>
   )
 }
