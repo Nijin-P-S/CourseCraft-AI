@@ -1,0 +1,12 @@
+<svg width="420" height="96" viewBox="0 0 420 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="12" width="72" height="72" rx="22" fill="url(#paint0_linear)" />
+  <path d="M27 51C27 40.8 34.6 32.5 45 32.5C51.3 32.5 56.5 35.4 59.6 40L53.3 44.3C51.6 41.6 48.7 40.1 45 40.1C39.1 40.1 35 44.7 35 51C35 57.3 39.1 61.9 45 61.9C48.7 61.9 51.7 60.2 53.6 57.4L59.9 61.7C56.6 66.6 51.2 69.5 45 69.5C34.6 69.5 27 61.2 27 51Z" fill="white" />
+  <path d="M18 32.5H26V69.5H18V32.5Z" fill="white" fill-opacity="0.86" />
+  <text x="96" y="58" fill="#08122F" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="34" font-weight="800" letter-spacing="-0.04em">CourseCraft AI</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="12" y1="16" x2="70" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F6BFF" />
+      <stop offset="1" stop-color="#7C3AED" />
+    </linearGradient>
+  </defs>
+</svg>
