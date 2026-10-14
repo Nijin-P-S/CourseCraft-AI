@@ -53,14 +53,14 @@ function CoursesPage() {
           <p className="eyebrow">Your library</p>
           <h1>Courses</h1>
         </div>
-        <Link className="button" to="/">
+        <Link className="button" to="/dashboard">
           Generate new course
         </Link>
       </div>
 
       {courses.length === 0 ? (
         <div className="state-card">
-          No courses yet. Generate your first course from the home page.
+          No courses yet. Generate your first course from the dashboard.
         </div>
       ) : (
         <div className="course-grid">
