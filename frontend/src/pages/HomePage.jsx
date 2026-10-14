@@ -2,8 +2,10 @@ import { useState } from 'react'
 import CourseOverview from '../components/CourseOverview'
 import { generateCourse } from '../api/courses'
 import { getApiErrorMessage } from '../api/client'
+import { useAuth } from '../context/useAuth'
 
 function HomePage() {
+  const { user } = useAuth()
   const [topic, setTopic] = useState('')
   const [course, setCourse] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
@@ -31,14 +33,31 @@ function HomePage() {
   }
 
   return (
-    <div className="page-stack">
-      <section className="hero-section" id="generate">
-        <p className="eyebrow">AI-powered course generator</p>
-        <h1>Turn any topic into a structured learning path.</h1>
-        <p className="hero-copy">
-          CourseCraft AI generates course outlines, rich lessons, quizzes,
-          video recommendations, and progress tracking from a single prompt.
-        </p>
+    <div className="page-stack dashboard-page">
+      <section className="dashboard-hero" id="generate">
+        <div>
+          <p className="eyebrow">Welcome back, {user?.name || 'learner'}</p>
+          <h1>Create your next learning path.</h1>
+          <p className="hero-copy">
+            Generate a course outline, open each module, create rich lesson
+            content, and track progress from this workspace.
+          </p>
+        </div>
+
+        <div className="dashboard-metrics" aria-label="Learning summary">
+          <article>
+            <strong>1 prompt</strong>
+            <span>to course outline</span>
+          </article>
+          <article>
+            <strong>4 modules</strong>
+            <span>typical MVP path</span>
+          </article>
+          <article>
+            <strong>Live</strong>
+            <span>progress tracking</span>
+          </article>
+        </div>
 
         <form className="prompt-card" onSubmit={handleSubmit}>
           <label htmlFor="topic">What do you want to learn?</label>
