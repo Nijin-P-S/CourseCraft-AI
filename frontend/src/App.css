@@ -730,6 +730,38 @@
   box-shadow: none;
 }
 
+.video-block {
+  display: grid;
+  gap: 16px;
+}
+
+.video-block-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.video-result {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(220px, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.video-result iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 14px;
+  background: var(--code-bg);
+}
+
+.video-result h3 {
+  color: var(--text-h);
+  margin: 0 0 8px;
+}
+
 .code-block {
   overflow-x: auto;
   padding: 18px;
@@ -778,7 +810,8 @@
   .lesson-strip,
   .feature-grid,
   .workflow-grid,
-  .dashboard-metrics {
+  .dashboard-metrics,
+  .video-result {
     grid-template-columns: 1fr;
   }
 

@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react'
+import { getApiErrorMessage } from '../api/client'
+import { searchYouTubeVideo } from '../api/youtube'
+
 function LessonRenderer({ blocks = [] }) {
   if (blocks.length === 0) {
     return <p className="muted">No lesson content has been generated yet.</p>
@@ -48,18 +52,87 @@ function ContentBlock({ block }) {
 
 function VideoBlock({ block }) {
   const query = block.query || block.title || ''
+  const [video, setVideo] = useState(null)
+  const [isLoading, setIsLoading] = useState(Boolean(query))
+  const [error, setError] = useState('')
   const youtubeUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(
     query,
   )}`
 
+  useEffect(() => {
+    let ignore = false
+
+    async function loadVideo() {
+      if (!query) {
+        setIsLoading(false)
+        return
+      }
+
+      setIsLoading(true)
+      setError('')
+
+      try {
+        const videoResult = await searchYouTubeVideo(query)
+        if (!ignore) {
+          setVideo(videoResult)
+        }
+      } catch (requestError) {
+        if (!ignore) {
+          setVideo(null)
+          setError(getApiErrorMessage(requestError))
+        }
+      } finally {
+        if (!ignore) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadVideo()
+
+    return () => {
+      ignore = true
+    }
+  }, [query])
+
   return (
     <aside className="video-block">
-      <strong>Video search</strong>
-      <p>{query || 'Video recommendation pending.'}</p>
-      {query && (
-        <a className="text-link" href={youtubeUrl} rel="noreferrer" target="_blank">
-          Search on YouTube
-        </a>
+      <div className="video-block-header">
+        <div>
+          <strong>Recommended video</strong>
+          <p>{query || 'Video recommendation pending.'}</p>
+        </div>
+        {query && (
+          <a className="text-link" href={youtubeUrl} rel="noreferrer" target="_blank">
+            Search on YouTube
+          </a>
+        )}
+      </div>
+
+      {isLoading && <p className="muted">Finding a matching video...</p>}
+
+      {video && (
+        <div className="video-result">
+          <iframe
+            title={video.title}
+            src={video.embedUrl}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+          <div>
+            <h3>{video.title}</h3>
+            {video.channelTitle && <p className="muted">{video.channelTitle}</p>}
+            <a className="text-link" href={video.watchUrl} rel="noreferrer" target="_blank">
+              Watch on YouTube
+            </a>
+          </div>
+        </div>
+      )}
+
+      {error && (
+        <p className="muted">
+          Could not load a video recommendation yet. {error}
+        </p>
       )}
     </aside>
   )
