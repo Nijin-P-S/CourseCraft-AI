@@ -1,5 +1,6 @@
 package com.coursecraft.ai.lesson.controller;
 
+import com.coursecraft.ai.auth.UserIdResolver;
 import com.coursecraft.ai.lesson.dto.LessonContentResponse;
 import com.coursecraft.ai.lesson.service.LessonService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/courses/{courseId}/modules/{moduleId}/lessons")
@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class LessonController {
 
 	private final LessonService lessonService;
+	private final UserIdResolver userIdResolver;
 
 	@GetMapping("/{lessonId}")
 	public ResponseEntity<LessonContentResponse> getLessonContent(
@@ -27,7 +28,7 @@ public class LessonController {
 			@PathVariable String lessonId,
 			Authentication authentication
 	) {
-		String userId = requireUserId(authentication);
+		String userId = userIdResolver.resolve(authentication);
 		LessonContentResponse response = lessonService.getLessonContent(
 				courseId,
 				moduleId,
@@ -45,7 +46,7 @@ public class LessonController {
 			@PathVariable String lessonId,
 			Authentication authentication
 	) {
-		String userId = requireUserId(authentication);
+		String userId = userIdResolver.resolve(authentication);
 		LessonContentResponse response = lessonService.generateLessonContent(
 				courseId,
 				moduleId,
@@ -54,13 +55,5 @@ public class LessonController {
 		);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
-
-	private String requireUserId(Authentication authentication) {
-		if (authentication == null || !authentication.isAuthenticated()) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required");
-		}
-
-		return authentication.getName();
 	}
 }

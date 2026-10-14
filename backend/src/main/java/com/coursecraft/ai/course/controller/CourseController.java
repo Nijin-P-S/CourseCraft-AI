@@ -1,5 +1,6 @@
 package com.coursecraft.ai.course.controller;
 
+import com.coursecraft.ai.auth.UserIdResolver;
 import com.coursecraft.ai.course.dto.CourseResponse;
 import com.coursecraft.ai.course.dto.GenerateCourseRequest;
 import com.coursecraft.ai.course.service.CourseService;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -23,10 +23,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class CourseController {
 
 	private final CourseService courseService;
+	private final UserIdResolver userIdResolver;
 
 	@GetMapping
 	public ResponseEntity<List<CourseResponse>> getCourses(Authentication authentication) {
-		String userId = requireUserId(authentication);
+		String userId = userIdResolver.resolve(authentication);
 		return ResponseEntity.ok(courseService.getCoursesForUser(userId));
 	}
 
@@ -35,7 +36,7 @@ public class CourseController {
 			@PathVariable String courseId,
 			Authentication authentication
 	) {
-		String userId = requireUserId(authentication);
+		String userId = userIdResolver.resolve(authentication);
 		return ResponseEntity.ok(courseService.getCourse(courseId, userId));
 	}
 
@@ -44,17 +45,9 @@ public class CourseController {
 			@Valid @RequestBody GenerateCourseRequest request,
 			Authentication authentication
 	) {
-		String userId = requireUserId(authentication);
+		String userId = userIdResolver.resolve(authentication);
 		CourseResponse response = courseService.generateCourse(request, userId);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
-
-	private String requireUserId(Authentication authentication) {
-		if (authentication == null || !authentication.isAuthenticated()) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required");
-		}
-
-		return authentication.getName();
 	}
 }
