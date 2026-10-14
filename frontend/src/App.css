@@ -29,6 +29,7 @@
   text-decoration: none;
 }
 
+.sidebar a.active,
 .sidebar a:hover {
   color: var(--accent);
 }
@@ -40,6 +41,12 @@
 
 .hero-section {
   max-width: 840px;
+}
+
+.page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .eyebrow {
@@ -55,12 +62,26 @@
   margin-bottom: 32px;
 }
 
-.prompt-card {
+.prompt-card,
+.state-card,
+.course-overview,
+.course-card,
+.module-card,
+.progress-card,
+.objectives-card,
+.video-block,
+.mcq-block,
+.note-block,
+.media-card {
   padding: 24px;
   border: 1px solid var(--border);
   border-radius: 18px;
   background: var(--social-bg);
   box-shadow: var(--shadow);
+}
+
+.state-card {
+  max-width: 840px;
 }
 
 .prompt-card label {
@@ -86,7 +107,11 @@
   font: inherit;
 }
 
+.button,
 .prompt-row button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 14px 18px;
   border: 0;
   border-radius: 10px;
@@ -95,11 +120,163 @@
   cursor: pointer;
   font: inherit;
   font-weight: 700;
+  text-decoration: none;
+}
+
+.button.secondary {
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+.button:disabled,
+.prompt-row button:disabled,
+.prompt-row input:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.section-header h1,
+.section-header h2 {
+  margin-top: 0;
+}
+
+.muted {
+  color: var(--text);
+}
+
+.error-message {
+  color: #dc2626;
+  margin-top: 12px;
+}
+
+.text-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.tag,
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  color: var(--text-h);
+  background: var(--accent-bg);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+}
+
+.module-list,
+.course-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.course-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.module-card h3,
+.course-card h2,
+.mcq-block h3 {
+  color: var(--text-h);
+  margin: 0 0 8px;
+}
+
+.lesson-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lesson-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.lesson-list a {
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.lesson-list a:hover {
+  color: var(--accent);
+}
+
+.lesson-page {
+  max-width: 960px;
+}
+
+.progress-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.objectives-card ul,
+.mcq-block ol {
+  margin-bottom: 0;
+}
+
+.lesson-content {
+  display: grid;
+  gap: 18px;
+}
+
+.lesson-content h2 {
+  margin-top: 8px;
+}
+
+.video-block,
+.note-block {
+  box-shadow: none;
+}
+
+.code-block {
+  overflow-x: auto;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--code-bg);
+}
+
+.media-card img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+.correct-answer {
+  color: var(--text-h);
+  font-weight: 700;
 }
 
 @media (max-width: 768px) {
   .app-shell,
-  .prompt-row {
+  .prompt-row,
+  .section-header,
+  .lesson-list li,
+  .progress-card {
     flex-direction: column;
   }
 
