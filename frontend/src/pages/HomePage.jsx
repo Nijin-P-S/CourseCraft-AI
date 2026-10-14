@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CourseOverview from '../components/CourseOverview'
+import { getCurrentAuthUser } from '../api/auth'
 import { generateCourse } from '../api/courses'
 import { getApiErrorMessage } from '../api/client'
 import { useAuth } from '../context/useAuth'
@@ -8,8 +9,35 @@ function HomePage() {
   const { user } = useAuth()
   const [topic, setTopic] = useState('')
   const [course, setCourse] = useState(null)
+  const [backendAuth, setBackendAuth] = useState(null)
+  const [backendAuthError, setBackendAuthError] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    let ignore = false
+
+    async function loadBackendAuth() {
+      try {
+        const authUser = await getCurrentAuthUser()
+        if (!ignore) {
+          setBackendAuth(authUser)
+          setBackendAuthError('')
+        }
+      } catch (requestError) {
+        if (!ignore) {
+          setBackendAuth(null)
+          setBackendAuthError(getApiErrorMessage(requestError))
+        }
+      }
+    }
+
+    loadBackendAuth()
+
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -58,6 +86,25 @@ function HomePage() {
             <span>progress tracking</span>
           </article>
         </div>
+
+        <aside className="auth-status-card">
+          <div>
+            <p className="eyebrow">Backend auth check</p>
+            {backendAuth ? (
+              <h2>Connected as {backendAuth.userId}</h2>
+            ) : (
+              <h2>Backend session pending</h2>
+            )}
+          </div>
+          {backendAuth ? (
+            <p>
+              API accepted the current session using{' '}
+              <strong>{backendAuth.authMode}</strong> mode.
+            </p>
+          ) : (
+            <p>{backendAuthError || 'Checking backend auth status...'}</p>
+          )}
+        </aside>
 
         <form className="prompt-card" onSubmit={handleSubmit}>
           <label htmlFor="topic">What do you want to learn?</label>

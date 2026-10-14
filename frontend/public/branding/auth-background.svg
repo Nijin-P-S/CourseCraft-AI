@@ -1,0 +1,75 @@
+<svg width="2400" height="1400" viewBox="0 0 2400 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2400" height="1400" fill="#EEF5FF" />
+  <g opacity="0.95">
+    <circle cx="380" cy="180" r="420" fill="url(#paint0_radial)" />
+    <circle cx="2040" cy="280" r="520" fill="url(#paint1_radial)" />
+    <circle cx="1250" cy="1320" r="620" fill="url(#paint2_radial)" />
+  </g>
+  <path d="M0 1110C352 935 676 856 972 873C1268 890 1508 1007 1792 991C2003 979 2210 893 2400 792V1400H0V1110Z" fill="url(#paint3_linear)" opacity="0.52" />
+  <path d="M166 1044C492 832 794 750 1071 798C1348 846 1558 1029 1839 1013C2053 1001 2240 885 2370 772" stroke="#9EBBFF" stroke-width="3" opacity="0.32" />
+  <path d="M272 1194C558 1015 851 957 1151 1021C1451 1085 1669 1238 1983 1168C2125 1136 2263 1066 2390 974" stroke="#C7D7FF" stroke-width="3" opacity="0.42" />
+  <g filter="url(#filter0_d)" opacity="0.9">
+    <rect x="1450" y="300" width="680" height="500" rx="48" fill="white" fill-opacity="0.78" />
+    <rect x="1498" y="360" width="250" height="28" rx="14" fill="#0F6BFF" fill-opacity="0.12" />
+    <rect x="1498" y="430" width="560" height="74" rx="22" fill="#F6F9FF" stroke="#DDE8FF" stroke-width="2" />
+    <rect x="1498" y="548" width="162" height="128" rx="28" fill="#F6F9FF" stroke="#DDE8FF" stroke-width="2" />
+    <rect x="1690" y="548" width="162" height="128" rx="28" fill="#F6F9FF" stroke="#DDE8FF" stroke-width="2" />
+    <rect x="1882" y="548" width="162" height="128" rx="28" fill="#F6F9FF" stroke="#DDE8FF" stroke-width="2" />
+    <rect x="1498" y="718" width="560" height="16" rx="8" fill="#DCE8FF" />
+    <rect x="1498" y="718" width="374" height="16" rx="8" fill="url(#paint4_linear)" />
+  </g>
+  <g filter="url(#filter1_d)">
+    <rect x="230" y="260" width="96" height="96" rx="28" fill="url(#paint5_linear)" />
+    <path d="M263 312C263 298.4 273.1 287.5 287 287.5C295.4 287.5 302.3 291.4 306.5 297.5L298.1 303.2C295.8 299.6 292 297.6 287 297.6C279.2 297.6 273.7 303.7 273.7 312C273.7 320.4 279.2 326.4 287 326.4C292 326.4 296 324.3 298.5 320.5L306.9 326.2C302.5 332.8 295.3 336.6 287 336.6C273.1 336.6 263 325.6 263 312Z" fill="white" />
+    <path d="M251 287.5H261.7V336.5H251V287.5Z" fill="white" fill-opacity="0.86" />
+  </g>
+  <text x="354" y="314" fill="#08122F" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="54" font-weight="800" letter-spacing="-0.04em">CourseCraft AI</text>
+  <text x="230" y="460" fill="#08122F" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="88" font-weight="800" letter-spacing="-0.06em">Build courses from ideas.</text>
+  <text x="234" y="550" fill="#506080" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="34" font-weight="500">AI-generated outlines, rich lessons, quizzes, and progress tracking.</text>
+  <defs>
+    <filter id="filter0_d" x="1390" y="260" width="800" height="620" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+      <feOffset dy="20" />
+      <feGaussianBlur stdDeviation="30" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.12 0 0 0 0 0.28 0 0 0 0 0.62 0 0 0 0.18 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+    </filter>
+    <filter id="filter1_d" x="190" y="230" width="176" height="176" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+      <feOffset dy="10" />
+      <feGaussianBlur stdDeviation="20" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.06 0 0 0 0 0.24 0 0 0 0 0.58 0 0 0 0.24 0" />
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+    </filter>
+    <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(380 180) rotate(90) scale(420)">
+      <stop stop-color="#BFD4FF" />
+      <stop offset="1" stop-color="#EEF5FF" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="paint1_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(2040 280) rotate(90) scale(520)">
+      <stop stop-color="#C8C6FF" />
+      <stop offset="1" stop-color="#EEF5FF" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="paint2_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1250 1320) rotate(90) scale(620)">
+      <stop stop-color="#D7E4FF" />
+      <stop offset="1" stop-color="#EEF5FF" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="paint3_linear" x1="0" y1="878" x2="2400" y2="1366" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DCE8FF" />
+      <stop offset="1" stop-color="#F4F8FF" />
+    </linearGradient>
+    <linearGradient id="paint4_linear" x1="1498" y1="718" x2="1872" y2="718" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F6BFF" />
+      <stop offset="1" stop-color="#7AA0FF" />
+    </linearGradient>
+    <linearGradient id="paint5_linear" x1="242" y1="266" x2="314" y2="348" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F6BFF" />
+      <stop offset="1" stop-color="#7C3AED" />
+    </linearGradient>
+  </defs>
+</svg>
