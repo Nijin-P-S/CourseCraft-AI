@@ -27,13 +27,7 @@ public class LessonService {
 			String lessonId,
 			String userId
 	) {
-		Course course = courseRepository.findById(courseId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
-
-		if (!course.getCreatorId().equals(userId)) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Course does not belong to the authenticated user");
-		}
-
+		Course course = getOwnedCourse(courseId, userId);
 		CourseModule module = findModule(course, moduleId);
 		LessonSummary lesson = findLesson(module, lessonId);
 
@@ -46,6 +40,34 @@ public class LessonService {
 		courseRepository.save(course);
 
 		return LessonContentResponse.from(savedContent);
+	}
+
+	public LessonContentResponse getLessonContent(
+			String courseId,
+			String moduleId,
+			String lessonId,
+			String userId
+	) {
+		Course course = getOwnedCourse(courseId, userId);
+		CourseModule module = findModule(course, moduleId);
+		findLesson(module, lessonId);
+
+		LessonContent lessonContent = lessonContentRepository
+				.findByCourseIdAndModuleIdAndLessonId(courseId, moduleId, lessonId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson content not found"));
+
+		return LessonContentResponse.from(lessonContent);
+	}
+
+	private Course getOwnedCourse(String courseId, String userId) {
+		Course course = courseRepository.findById(courseId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found"));
+
+		if (!course.getCreatorId().equals(userId)) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Course does not belong to the authenticated user");
+		}
+
+		return course;
 	}
 
 	private CourseModule findModule(Course course, String moduleId) {
