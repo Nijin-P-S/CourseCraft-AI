@@ -8,9 +8,11 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(name = "app.ai.provider", havingValue = "template", matchIfMissing = true)
 public class TemplateCourseOutlineGenerator implements CourseOutlineGenerator {
 
 	@Override
