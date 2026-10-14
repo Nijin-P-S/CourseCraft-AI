@@ -74,6 +74,7 @@ function LessonPage() {
 
   const completedLessonIds = progress?.completedLessonIds || []
   const isCompleted = completedLessonIds.includes(lessonId)
+  const lessonScore = progress?.assessmentScores?.[lessonId]
 
   async function handleGenerateLesson() {
     setIsGenerating(true)
@@ -107,6 +108,14 @@ function LessonPage() {
     } finally {
       setIsSavingProgress(false)
     }
+  }
+
+  async function handleAssessmentComplete(score) {
+    const updatedProgress = await updateLessonProgress(courseId, lessonId, {
+      completed: score === 100 || isCompleted,
+      assessmentScore: score,
+    })
+    setProgress(updatedProgress)
   }
 
   if (isLoading) {
@@ -151,6 +160,9 @@ function LessonPage() {
           />{' '}
           Mark lesson complete
         </label>
+        {lessonScore !== undefined && (
+          <span className="score-pill">Quiz score: {lessonScore}%</span>
+        )}
         {isSavingProgress && <span className="muted">Saving...</span>}
       </div>
 
@@ -165,7 +177,10 @@ function LessonPage() {
         </section>
       )}
 
-      <LessonRenderer blocks={lessonContent?.contentBlocks || []} />
+      <LessonRenderer
+        blocks={lessonContent?.contentBlocks || []}
+        onAssessmentComplete={handleAssessmentComplete}
+      />
     </section>
   )
 }

@@ -647,7 +647,8 @@
 }
 
 .tag,
-.status-pill {
+.status-pill,
+.score-pill {
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--accent-border);
@@ -776,6 +777,56 @@
 
 .correct-answer {
   color: var(--text-h);
+  font-weight: 700;
+}
+
+.mcq-block {
+  display: grid;
+  gap: 16px;
+}
+
+.mcq-options {
+  display: grid;
+  gap: 10px;
+}
+
+.mcq-option {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text-h);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.mcq-option:hover:not(:disabled),
+.mcq-option.selected {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.mcq-option.correct {
+  border-color: #16a34a;
+  background: rgba(22, 163, 74, 0.12);
+}
+
+.mcq-option.incorrect {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.mcq-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.success-message {
+  color: #16a34a;
   font-weight: 700;
 }
 
