@@ -490,6 +490,25 @@
   font-size: 24px;
 }
 
+.auth-status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--accent-border);
+  border-radius: 18px;
+  background: var(--accent-bg);
+}
+
+.auth-status-card h2 {
+  margin: 6px 0 0;
+}
+
+.auth-status-card p:last-child {
+  max-width: 420px;
+}
+
 .auth-required {
   display: grid;
   gap: 20px;
