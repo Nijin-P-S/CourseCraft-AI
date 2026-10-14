@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,24 @@ public class LessonController {
 
 	private final LessonService lessonService;
 
+	@GetMapping("/{lessonId}")
+	public ResponseEntity<LessonContentResponse> getLessonContent(
+			@PathVariable String courseId,
+			@PathVariable String moduleId,
+			@PathVariable String lessonId,
+			Authentication authentication
+	) {
+		String userId = requireUserId(authentication);
+		LessonContentResponse response = lessonService.getLessonContent(
+				courseId,
+				moduleId,
+				lessonId,
+				userId
+		);
+
+		return ResponseEntity.ok(response);
+	}
+
 	@PostMapping("/{lessonId}/generate")
 	public ResponseEntity<LessonContentResponse> generateLessonContent(
 			@PathVariable String courseId,
@@ -26,17 +45,22 @@ public class LessonController {
 			@PathVariable String lessonId,
 			Authentication authentication
 	) {
-		if (authentication == null || !authentication.isAuthenticated()) {
-			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required");
-		}
-
+		String userId = requireUserId(authentication);
 		LessonContentResponse response = lessonService.generateLessonContent(
 				courseId,
 				moduleId,
 				lessonId,
-				authentication.getName()
+				userId
 		);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	private String requireUserId(Authentication authentication) {
+		if (authentication == null || !authentication.isAuthenticated()) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required");
+		}
+
+		return authentication.getName();
 	}
 }
