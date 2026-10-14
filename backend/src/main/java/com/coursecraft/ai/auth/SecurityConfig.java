@@ -2,6 +2,7 @@ package com.coursecraft.ai.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +12,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+	private final boolean jwtEnabled;
+
+	public SecurityConfig(@Value("${app.security.jwt.enabled:false}") boolean jwtEnabled) {
+		this.jwtEnabled = jwtEnabled;
+	}
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http
+		http
 				.cors(Customizer.withDefaults())
 				.csrf(AbstractHttpConfigurer::disable)
 				.formLogin(AbstractHttpConfigurer::disable)
@@ -23,7 +30,12 @@ public class SecurityConfig {
 						.requestMatchers("/actuator/health", "/actuator/health/**", "/actuator/info").permitAll()
 						.requestMatchers("/api/**").authenticated()
 						.anyRequest().denyAll()
-				)
-				.build();
+				);
+
+		if (jwtEnabled) {
+			http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+		}
+
+		return http.build();
 	}
 }
