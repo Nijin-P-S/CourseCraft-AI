@@ -127,8 +127,8 @@ function HomePage() {
 
       {isGenerating && (
         <section className="state-card">
-          Building your course outline. This can take a moment when Gemini is
-          enabled.
+          Building your course outline. This can take a moment while AI
+          prepares the modules and lessons.
         </section>
       )}
 

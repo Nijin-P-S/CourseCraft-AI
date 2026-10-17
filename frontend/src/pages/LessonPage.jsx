@@ -147,40 +147,47 @@ function LessonPage() {
         </button>
       </header>
 
-      {error && <section className="state-card error-message">{error}</section>}
-      {lessonNotice && <section className="state-card">{lessonNotice}</section>}
+      <div className="lesson-workspace">
+        <main className="lesson-main-panel">
+          {error && <section className="state-card error-message">{error}</section>}
+          {lessonNotice && <section className="state-card">{lessonNotice}</section>}
+          <LessonRenderer
+            blocks={lessonContent?.contentBlocks || []}
+            onAssessmentComplete={handleAssessmentComplete}
+          />
+        </main>
 
-      <div className="progress-card">
-        <label>
-          <input
-            type="checkbox"
-            checked={isCompleted}
-            onChange={handleProgressChange}
-            disabled={isSavingProgress}
-          />{' '}
-          Mark lesson complete
-        </label>
-        {lessonScore !== undefined && (
-          <span className="score-pill">Quiz score: {lessonScore}%</span>
-        )}
-        {isSavingProgress && <span className="muted">Saving...</span>}
+        <aside className="lesson-side-panel">
+          <section className="progress-card">
+            <p className="eyebrow">Lesson status</p>
+            <label>
+              <input
+                type="checkbox"
+                checked={isCompleted}
+                onChange={handleProgressChange}
+                disabled={isSavingProgress}
+              />{' '}
+              Mark lesson complete
+            </label>
+            {lessonScore !== undefined && (
+              <span className="score-pill">Quiz score: {lessonScore}%</span>
+            )}
+            {isSavingProgress && <span className="muted">Saving...</span>}
+          </section>
+
+          {lessonContent?.objectives?.length > 0 && (
+            <section className="objectives-card">
+              <p className="eyebrow">Objectives</p>
+              <h2>What you will learn</h2>
+              <ul>
+                {lessonContent.objectives.map((objective) => (
+                  <li key={objective}>{objective}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </aside>
       </div>
-
-      {lessonContent?.objectives?.length > 0 && (
-        <section className="objectives-card">
-          <h2>Objectives</h2>
-          <ul>
-            {lessonContent.objectives.map((objective) => (
-              <li key={objective}>{objective}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <LessonRenderer
-        blocks={lessonContent?.contentBlocks || []}
-        onAssessmentComplete={handleAssessmentComplete}
-      />
     </section>
   )
 }
