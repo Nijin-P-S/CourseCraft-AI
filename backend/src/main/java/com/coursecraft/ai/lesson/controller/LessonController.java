@@ -2,9 +2,12 @@ package com.coursecraft.ai.lesson.controller;
 
 import com.coursecraft.ai.auth.UserIdResolver;
 import com.coursecraft.ai.lesson.dto.LessonContentResponse;
+import com.coursecraft.ai.lesson.service.LessonAudioService;
 import com.coursecraft.ai.lesson.service.LessonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LessonController {
 
 	private final LessonService lessonService;
+	private final LessonAudioService lessonAudioService;
 	private final UserIdResolver userIdResolver;
 
 	@GetMapping("/{lessonId}")
@@ -55,5 +59,21 @@ public class LessonController {
 		);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	@PostMapping("/{lessonId}/audio")
+	public ResponseEntity<byte[]> generateLessonAudio(
+			@PathVariable String courseId,
+			@PathVariable String moduleId,
+			@PathVariable String lessonId,
+			Authentication authentication
+	) {
+		String userId = userIdResolver.resolve(authentication);
+		byte[] audio = lessonAudioService.generateHinglishAudio(courseId, moduleId, lessonId, userId);
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType("audio/wav"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"lesson-hinglish.wav\"")
+				.body(audio);
 	}
 }

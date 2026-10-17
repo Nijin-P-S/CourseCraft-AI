@@ -81,3 +81,12 @@ export async function updateLessonProgress(courseId, lessonId, payload) {
   progressCache.set(courseId, data)
   return data
 }
+
+export async function generateLessonAudio(courseId, moduleId, lessonId) {
+  const { data } = await apiClient.post(
+    `/api/courses/${courseId}/modules/${moduleId}/lessons/${lessonId}/audio`,
+    {},
+    { responseType: 'blob' },
+  )
+  return data
+}

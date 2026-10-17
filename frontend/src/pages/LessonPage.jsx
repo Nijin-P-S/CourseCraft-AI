@@ -8,6 +8,8 @@ import {
   getLessonContent,
   updateLessonProgress,
 } from '../api/courses'
+import LessonAudioPlayer from '../components/LessonAudioPlayer'
+import LessonPDFExporter from '../components/LessonPDFExporter'
 import LessonRenderer from '../components/LessonRenderer'
 
 function LessonPage() {
@@ -186,6 +188,19 @@ function LessonPage() {
               </ul>
             </section>
           )}
+
+          <LessonPDFExporter
+            lessonContent={lessonContent}
+            lessonTitle={lessonSummary.title}
+            moduleTitle={currentModule.title}
+          />
+
+          <LessonAudioPlayer
+            courseId={courseId}
+            moduleId={moduleId}
+            lessonId={lessonId}
+            disabled={!lessonContent}
+          />
         </aside>
       </div>
     </section>
