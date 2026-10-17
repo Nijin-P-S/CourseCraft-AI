@@ -1126,7 +1126,7 @@
   margin-bottom: 0;
 }
 
-.prompt-card-header > span {
+.prompt-example-pill {
   border-radius: 999px;
   background: #f2f4f7;
   color: #475467;
@@ -1134,6 +1134,19 @@
   font-weight: 800;
   padding: 8px 12px;
   white-space: nowrap;
+  animation: promptExampleIn 520ms ease both;
+}
+
+@keyframes promptExampleIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .prompt-row {
@@ -1165,12 +1178,24 @@
   font-size: 13px;
   font-weight: 800;
   padding: 9px 12px;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.prompt-suggestion-row button:hover:not(:disabled) {
+.prompt-suggestion-row button:hover:not(:disabled),
+.prompt-suggestion-row button.active {
   border-color: #bfdbfe;
   background: #eff6ff;
   color: #1d4ed8;
+}
+
+.prompt-suggestion-row button.active {
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
+  transform: translateY(-1px);
 }
 
 .prompt-suggestion-row button:disabled {
@@ -1521,7 +1546,7 @@
     flex-direction: column;
   }
 
-  .prompt-card-header > span {
+  .prompt-example-pill {
     white-space: normal;
   }
 

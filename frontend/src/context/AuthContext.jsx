@@ -12,7 +12,7 @@ const auth0Enabled = Boolean(auth0Domain && auth0ClientId)
 const demoUser = {
   name: 'Nijin',
   email: 'nijin@example.com',
-  plan: 'MVP Learner',
+  plan: 'CourseCraft Learner',
 }
 
 export function AuthProvider({ children }) {
