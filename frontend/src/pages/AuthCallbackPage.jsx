@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 
 function AuthCallbackPage() {
-  const { isAuthenticated, isLoading, login } = useAuth()
+  const { error, isAuthenticated, isLoading, login } = useAuth()
 
   if (isLoading) {
     return (
@@ -22,7 +22,10 @@ function AuthCallbackPage() {
     <section className="auth-required">
       <p className="eyebrow">Sign-in incomplete</p>
       <h1>We could not finish the Auth0 redirect.</h1>
-      <p>Start sign-in again to request a fresh Auth0 session.</p>
+      <p>
+        {error?.message ||
+          'Start sign-in again to request a fresh Auth0 session.'}
+      </p>
       <button className="button" type="button" onClick={login}>
         Try login again
       </button>

@@ -76,6 +76,7 @@ function LocalAuthProvider({ children }) {
 
 function Auth0AuthProvider({ children }) {
   const {
+    error,
     getAccessTokenSilently,
     isAuthenticated,
     isLoading,
@@ -113,6 +114,7 @@ function Auth0AuthProvider({ children }) {
         : null,
       isAuthenticated,
       isLoading,
+      error,
       provider: 'auth0',
       login: () => loginWithRedirect(),
       logout: () =>
@@ -122,7 +124,7 @@ function Auth0AuthProvider({ children }) {
           },
         }),
     }),
-    [auth0Logout, auth0User, isAuthenticated, isLoading, loginWithRedirect],
+    [auth0Logout, auth0User, error, isAuthenticated, isLoading, loginWithRedirect],
   )
 
   return (
