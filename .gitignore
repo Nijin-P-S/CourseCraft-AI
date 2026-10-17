@@ -6,9 +6,23 @@
 # macOS
 .DS_Store
 
+# Logs and reports
+*.log
+coverage/
+*.lcov
+
 # IDEs
 .idea/
 .vscode/
+
+# Local deployment/tooling state
+.vercel/
+.turbo/
+
+# Local credential material
+*.pem
+*.p12
+credentials.json
 
 # Frontend
 frontend/node_modules/
