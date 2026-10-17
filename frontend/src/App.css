@@ -545,6 +545,7 @@
 .module-card,
 .progress-card,
 .objectives-card,
+.lesson-tool-card,
 .video-block,
 .mcq-block,
 .note-block,
@@ -1035,6 +1036,7 @@
 .module-card,
 .progress-card,
 .objectives-card,
+.lesson-tool-card,
 .video-block,
 .mcq-block,
 .note-block,
@@ -1414,7 +1416,8 @@
 }
 
 .progress-card,
-.objectives-card {
+.objectives-card,
+.lesson-tool-card {
   align-items: flex-start;
   flex-direction: column;
 }
@@ -1424,7 +1427,8 @@
   font-weight: 800;
 }
 
-.objectives-card h2 {
+.objectives-card h2,
+.lesson-tool-card h2 {
   margin: 4px 0 12px;
   font-size: 22px;
   letter-spacing: -0.03em;
@@ -1467,8 +1471,83 @@
 .video-block,
 .mcq-block,
 .note-block,
-.media-card {
+.media-card,
+.lesson-tool-card {
   padding: 28px;
+}
+
+.lesson-tool-card {
+  display: grid;
+  gap: 12px;
+}
+
+.lesson-audio-player {
+  width: 100%;
+}
+
+.pdf-export-wrapper {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  width: 794px;
+  pointer-events: none;
+}
+
+.pdf-export-surface {
+  width: 794px;
+  box-sizing: border-box;
+  padding: 56px;
+  background: #fff;
+  color: #111827;
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.pdf-export-surface h1 {
+  margin: 0 0 24px;
+  color: #111827;
+  font-size: 38px;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.pdf-export-surface h2 {
+  margin: 28px 0 10px;
+  color: #1f2937;
+  font-size: 24px;
+}
+
+.pdf-export-surface p,
+.pdf-export-surface li {
+  color: #374151;
+  font-size: 15px;
+}
+
+.pdf-kicker {
+  margin: 0 0 10px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pdf-code-block {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  padding: 18px;
+  border-radius: 14px;
+  background: #111827;
+  color: #f9fafb;
+}
+
+.pdf-callout,
+.pdf-mcq {
+  margin: 18px 0;
+  padding: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  background: #f8fafc;
 }
 
 .video-block-header strong,

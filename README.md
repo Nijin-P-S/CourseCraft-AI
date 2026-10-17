@@ -11,6 +11,8 @@ The project is designed to run locally with a lightweight demo auth mode, then s
 - Generate rich lesson content on demand.
 - Track completed lessons and assessment scores per user.
 - Search for relevant YouTube videos for lessons.
+- Download generated lessons as styled PDFs.
+- Generate Hinglish audio explanations for lessons with Gemini TTS.
 - Run with local demo authentication or Auth0 JWT authentication.
 - Use template output for local development or Gemini/OpenRouter for real AI generation.
 
@@ -166,6 +168,8 @@ AI provider variables:
 
 - `GEMINI_API_KEY`: Required when `AI_PROVIDER=gemini`.
 - `GEMINI_MODEL`: Defaults to `gemini-1.5-flash`.
+- `GEMINI_TTS_MODEL`: Defaults to `gemini-2.5-flash-preview-tts`; used for Hinglish lesson audio.
+- `GEMINI_TTS_VOICE`: Defaults to `Kore`.
 - `OPENROUTER_API_KEY`: Required when `AI_PROVIDER=openrouter`.
 - `OPENROUTER_MODEL`: Defaults to `openai/gpt-4o-mini`.
 - `OPENROUTER_BASE_URL`: Defaults to `https://openrouter.ai/api/v1`.
@@ -223,6 +227,7 @@ All API routes are served by the backend on `VITE_API_BASE_URL`.
 - `POST /api/courses/generate`: Generate a course outline. Body: `{ "topic": "Machine learning basics" }`.
 - `GET /api/courses/{courseId}/modules/{moduleId}/lessons/{lessonId}`: Fetch generated lesson content.
 - `POST /api/courses/{courseId}/modules/{moduleId}/lessons/{lessonId}/generate`: Generate lesson content.
+- `POST /api/courses/{courseId}/modules/{moduleId}/lessons/{lessonId}/audio`: Generate Hinglish lesson audio as a WAV response.
 - `GET /api/courses/{courseId}/progress`: Fetch course progress for the current user.
 - `PUT /api/courses/{courseId}/progress/lessons/{lessonId}`: Update lesson progress. Body: `{ "completed": true, "assessmentScore": 90 }`.
 - `GET /api/youtube?query=...`: Return the first matching YouTube video for a query.
