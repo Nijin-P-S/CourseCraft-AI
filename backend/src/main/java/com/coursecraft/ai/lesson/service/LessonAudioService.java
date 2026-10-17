@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -52,11 +53,20 @@ public class LessonAudioService {
 				.findByCourseIdAndModuleIdAndLessonId(courseId, moduleId, lessonId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Lesson content not found"));
 
-		String responseBody = restClient.post()
-				.uri("/v1beta/models/{model}:generateContent?key={apiKey}", ttsModel, geminiApiKey)
-				.body(buildTtsRequest(course, module, lesson, content))
-				.retrieve()
-				.body(String.class);
+		String responseBody;
+		try {
+			responseBody = restClient.post()
+					.uri("/v1beta/models/{model}:generateContent?key={apiKey}", ttsModel, geminiApiKey)
+					.body(buildTtsRequest(course, module, lesson, content))
+					.retrieve()
+					.body(String.class);
+		} catch (RestClientResponseException exception) {
+			throw new ResponseStatusException(
+					HttpStatus.BAD_GATEWAY,
+					"Gemini TTS request failed: " + readGeminiErrorMessage(exception.getResponseBodyAsString()),
+					exception
+			);
+		}
 
 		return readAudio(responseBody);
 	}
@@ -141,13 +151,13 @@ public class LessonAudioService {
 
 	private byte[] readAudio(String responseBody) {
 		try {
-			JsonNode inlineData = objectMapper.readTree(responseBody)
+			JsonNode part = objectMapper.readTree(responseBody)
 					.path("candidates")
 					.path(0)
 					.path("content")
 					.path("parts")
-					.path(0)
-					.path("inlineData");
+					.path(0);
+			JsonNode inlineData = part.has("inlineData") ? part.path("inlineData") : part.path("inline_data");
 			String base64Audio = inlineData.path("data").asText();
 			String mimeType = inlineData.path("mimeType").asText();
 
@@ -163,6 +173,20 @@ public class LessonAudioService {
 			return toWav(audioBytes, sampleRateFrom(mimeType));
 		} catch (Exception exception) {
 			throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Gemini TTS returned an unreadable response", exception);
+		}
+	}
+
+	private String readGeminiErrorMessage(String responseBody) {
+		if (responseBody == null || responseBody.isBlank()) {
+			return "empty error response";
+		}
+
+		try {
+			JsonNode error = objectMapper.readTree(responseBody).path("error");
+			String message = error.path("message").asText();
+			return message.isBlank() ? responseBody : message;
+		} catch (Exception exception) {
+			return responseBody;
 		}
 	}
 

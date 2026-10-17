@@ -26,7 +26,7 @@ function LessonAudioPlayer({ courseId, moduleId, lessonId, disabled }) {
       }
       setAudioUrl(URL.createObjectURL(audioBlob))
     } catch (requestError) {
-      setError(getApiErrorMessage(requestError))
+      setError(await getAudioErrorMessage(requestError))
     } finally {
       setIsGenerating(false)
     }
@@ -56,6 +56,21 @@ function LessonAudioPlayer({ courseId, moduleId, lessonId, disabled }) {
       {error && <p className="error-message">{error}</p>}
     </section>
   )
+}
+
+async function getAudioErrorMessage(error) {
+  const data = error?.response?.data
+  if (data instanceof Blob) {
+    try {
+      const text = await data.text()
+      const parsed = JSON.parse(text)
+      return parsed.message || parsed.error || text
+    } catch {
+      return getApiErrorMessage(error)
+    }
+  }
+
+  return getApiErrorMessage(error)
 }
 
 export default LessonAudioPlayer
