@@ -1052,13 +1052,14 @@
 
 .dashboard-metrics strong {
   color: #101828;
-  font-size: 28px;
-  line-height: 1.05;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.12;
   letter-spacing: -0.04em;
 }
 
 .dashboard-metrics span {
   color: #667085;
+  font-size: 14px;
   line-height: 1.45;
 }
 
