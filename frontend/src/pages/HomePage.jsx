@@ -92,7 +92,7 @@ function HomePage() {
           </article>
           <article>
             <strong>4 modules</strong>
-            <span>typical MVP path</span>
+            <span>guided learning path</span>
           </article>
           <article>
             <strong>Live</strong>
@@ -119,13 +119,15 @@ function HomePage() {
               <p className="eyebrow">Course generator</p>
               <label htmlFor="topic">What do you want to learn?</label>
             </div>
-            <span>Try: {promptExamples[activePromptIndex]}</span>
+            <span className="prompt-example-pill" key={promptExamples[activePromptIndex]}>
+              Try: {promptExamples[activePromptIndex]}
+            </span>
           </div>
           <div className="prompt-row">
             <input
               id="topic"
               type="text"
-              placeholder={promptExamples[activePromptIndex]}
+              placeholder="Tell CourseCraft what you want to master..."
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
               disabled={isGenerating}
@@ -139,6 +141,7 @@ function HomePage() {
               <button
                 type="button"
                 key={example}
+                className={example === promptExamples[activePromptIndex] ? 'active' : ''}
                 onClick={() => setTopic(example)}
                 disabled={isGenerating}
               >

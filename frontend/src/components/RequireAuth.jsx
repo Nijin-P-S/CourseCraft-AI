@@ -22,7 +22,7 @@ function RequireAuth({ children }) {
       </p>
       <div className="action-row">
         <button className="button" type="button" onClick={login}>
-          {provider === 'auth0' ? 'Log in with Auth0' : 'Log in with demo account'}
+          {provider === 'auth0' ? 'Log in' : 'Log in with demo account'}
         </button>
         <Link className="button secondary" to="/">
           Back to overview

@@ -44,7 +44,7 @@ function LandingPage() {
         <div className="marketing-links">
           <a href="#features">Features</a>
           <a href="#workflow">Workflow</a>
-          <a href="#pricing">MVP</a>
+          <a href="#pricing">Launch</a>
         </div>
         <div className="marketing-actions">
           {isAuthenticated ? (
@@ -57,7 +57,7 @@ function LandingPage() {
                 Log in
               </button>
               <button className="button" type="button" onClick={handleLogin}>
-                {provider === 'auth0' ? 'Log in with Auth0' : 'Start free'}
+                {provider === 'auth0' ? 'Log in' : 'Start free'}
               </button>
             </>
           )}
@@ -157,7 +157,7 @@ function LandingPage() {
       </section>
 
       <section className="cta-section" id="pricing">
-        <p className="eyebrow">MVP access</p>
+        <p className="eyebrow">Full access</p>
         <h2>Ready to craft your first course?</h2>
         <button className="button" type="button" onClick={handleLogin}>
           Enter the dashboard
