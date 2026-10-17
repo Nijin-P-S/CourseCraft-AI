@@ -8,6 +8,7 @@ function AppLayout() {
     <div className="app-shell">
       <aside className="sidebar" aria-label="Primary navigation">
         <NavLink className="brand" to="/">
+          <span>CC</span>
           CourseCraft AI
         </NavLink>
         <nav>

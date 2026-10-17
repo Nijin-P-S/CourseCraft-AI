@@ -47,11 +47,15 @@ function CoursesPage() {
   }
 
   return (
-    <section className="page-stack">
+    <section className="page-stack courses-page">
       <div className="section-header">
         <div>
           <p className="eyebrow">Your library</p>
           <h1>Courses</h1>
+          <p className="muted">
+            Continue learning paths generated for your goals and track each
+            lesson from outline to completion.
+          </p>
         </div>
         <Link className="button" to="/dashboard">
           Generate new course
@@ -66,11 +70,26 @@ function CoursesPage() {
         <div className="course-grid">
           {courses.map((course) => (
             <article className="course-card" key={course.id}>
-              <h2>{course.title}</h2>
-              {course.description && <p>{course.description}</p>}
-              <Link className="text-link" to={`/courses/${course.id}`}>
-                View course
-              </Link>
+              <div className="course-card-cover">
+                <span>{course.tags?.[0] || 'AI course'}</span>
+              </div>
+              <div className="course-card-body">
+                <h2>{course.title}</h2>
+                {course.description && <p>{course.description}</p>}
+                <div className="course-card-meta">
+                  <span>{course.modules?.length || 0} modules</span>
+                  <span>
+                    {(course.modules || []).reduce(
+                      (total, module) => total + (module.lessons?.length || 0),
+                      0,
+                    )}{' '}
+                    lessons
+                  </span>
+                </div>
+                <Link className="course-card-action" to={`/courses/${course.id}`}>
+                  Open course
+                </Link>
+              </div>
             </article>
           ))}
         </div>
