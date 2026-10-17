@@ -87,16 +87,16 @@ function HomePage() {
 
         <div className="dashboard-metrics" aria-label="Learning summary">
           <article>
-            <strong>1 prompt</strong>
-            <span>to course outline</span>
+            <strong>Prompt to path</strong>
+            <span>AI turns your topic into a structured course outline.</span>
           </article>
           <article>
-            <strong>4 modules</strong>
-            <span>guided learning path</span>
+            <strong>Adaptive modules</strong>
+            <span>Course structure adjusts to the topic and learning depth.</span>
           </article>
           <article>
-            <strong>Live</strong>
-            <span>progress tracking</span>
+            <strong>Progress-ready</strong>
+            <span>Lessons, checks, and completion tracking stay connected.</span>
           </article>
         </div>
 

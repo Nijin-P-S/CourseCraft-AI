@@ -52,14 +52,9 @@ function LandingPage() {
               Open dashboard
             </Link>
           ) : (
-            <>
-              <button className="text-button" type="button" onClick={handleLogin}>
-                Log in
-              </button>
-              <button className="button" type="button" onClick={handleLogin}>
-                {provider === 'auth0' ? 'Log in' : 'Start free'}
-              </button>
-            </>
+            <button className="button" type="button" onClick={handleLogin}>
+              {provider === 'auth0' ? 'Log in' : 'Start free'}
+            </button>
           )}
         </div>
       </nav>
