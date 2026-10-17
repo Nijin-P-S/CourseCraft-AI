@@ -43,7 +43,7 @@ public class LessonAudioService {
 
 	public byte[] generateHinglishAudio(String courseId, String moduleId, String lessonId, String userId) {
 		if (geminiApiKey == null || geminiApiKey.isBlank()) {
-			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Gemini API key is not configured");
+			throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Hinglish audio is not configured yet");
 		}
 
 		Course course = getOwnedCourse(courseId, userId);
@@ -63,7 +63,7 @@ public class LessonAudioService {
 		} catch (RestClientResponseException exception) {
 			throw new ResponseStatusException(
 					HttpStatus.BAD_GATEWAY,
-					"Gemini TTS request failed: " + readGeminiErrorMessage(exception.getResponseBodyAsString()),
+					"Hinglish audio is currently unavailable. Please try again later.",
 					exception
 			);
 		}
@@ -172,21 +172,11 @@ public class LessonAudioService {
 
 			return toWav(audioBytes, sampleRateFrom(mimeType));
 		} catch (Exception exception) {
-			throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Gemini TTS returned an unreadable response", exception);
-		}
-	}
-
-	private String readGeminiErrorMessage(String responseBody) {
-		if (responseBody == null || responseBody.isBlank()) {
-			return "empty error response";
-		}
-
-		try {
-			JsonNode error = objectMapper.readTree(responseBody).path("error");
-			String message = error.path("message").asText();
-			return message.isBlank() ? responseBody : message;
-		} catch (Exception exception) {
-			return responseBody;
+			throw new ResponseStatusException(
+					HttpStatus.BAD_GATEWAY,
+					"Hinglish audio is currently unavailable. Please try again later.",
+					exception
+			);
 		}
 	}
 

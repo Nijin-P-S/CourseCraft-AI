@@ -64,13 +64,17 @@ async function getAudioErrorMessage(error) {
     try {
       const text = await data.text()
       const parsed = JSON.parse(text)
-      return parsed.message || parsed.error || text
+      const message = parsed.message || parsed.error || ''
+      return message.startsWith('Hinglish audio') ? message : friendlyAudioError
     } catch {
-      return getApiErrorMessage(error)
+      return friendlyAudioError
     }
   }
 
-  return getApiErrorMessage(error)
+  return getApiErrorMessage(error) || friendlyAudioError
 }
+
+const friendlyAudioError =
+  'Hinglish audio is currently unavailable. Please try again later.'
 
 export default LessonAudioPlayer
