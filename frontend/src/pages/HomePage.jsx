@@ -1,41 +1,49 @@
 import { useEffect, useState } from 'react'
 import CourseOverview from '../components/CourseOverview'
-import { getCurrentAuthUser } from '../api/auth'
 import { generateCourse } from '../api/courses'
 import { getApiErrorMessage } from '../api/client'
 import { useAuth } from '../context/useAuth'
+
+const promptExamples = [
+  'Spring Boot microservices',
+  'Intro to React Hooks',
+  'System design for beginners',
+  'Python for data analysis',
+  'Cloud deployment with Docker',
+]
+
+const dashboardInsights = [
+  {
+    title: 'AI outline',
+    description: 'Turn a topic into a structured course with modules and lesson goals.',
+  },
+  {
+    title: 'Lesson studio',
+    description: 'Generate rich lesson content, quizzes, notes, and recommended videos.',
+  },
+  {
+    title: 'Progress loop',
+    description: 'Track completion and quiz scores as every learning path grows.',
+  },
+]
 
 function HomePage() {
   const { user } = useAuth()
   const [topic, setTopic] = useState('')
   const [course, setCourse] = useState(null)
-  const [backendAuth, setBackendAuth] = useState(null)
-  const [backendAuthError, setBackendAuthError] = useState('')
+  const [activePromptIndex, setActivePromptIndex] = useState(0)
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    let ignore = false
-
-    async function loadBackendAuth() {
-      try {
-        const authUser = await getCurrentAuthUser()
-        if (!ignore) {
-          setBackendAuth(authUser)
-          setBackendAuthError('')
-        }
-      } catch (requestError) {
-        if (!ignore) {
-          setBackendAuth(null)
-          setBackendAuthError(getApiErrorMessage(requestError))
-        }
-      }
-    }
-
-    loadBackendAuth()
+    const intervalId = window.setInterval(() => {
+      setActivePromptIndex((currentIndex) =>
+        (currentIndex + 1) % promptExamples.length,
+      )
+    }, 2800)
 
     return () => {
-      ignore = true
+      window.clearInterval(intervalId)
     }
   }, [])
 
@@ -63,13 +71,18 @@ function HomePage() {
   return (
     <div className="page-stack dashboard-page">
       <section className="dashboard-hero" id="generate">
-        <div>
+        <div className="dashboard-hero-card">
           <p className="eyebrow">Welcome back, {user?.name || 'learner'}</p>
           <h1>Create your next learning path.</h1>
           <p className="hero-copy">
             Generate a course outline, open each module, create rich lesson
             content, and track progress from this workspace.
           </p>
+          <div className="hero-highlight-row">
+            <span>Personalized modules</span>
+            <span>Interactive checks</span>
+            <span>Video recommendations</span>
+          </div>
         </div>
 
         <div className="dashboard-metrics" aria-label="Learning summary">
@@ -87,32 +100,32 @@ function HomePage() {
           </article>
         </div>
 
-        <aside className="auth-status-card">
-          <div>
-            <p className="eyebrow">Backend auth check</p>
-            {backendAuth ? (
-              <h2>Connected as {backendAuth.userId}</h2>
-            ) : (
-              <h2>Backend session pending</h2>
-            )}
+        <aside className="dashboard-insight-card">
+          <p className="eyebrow">Today&apos;s workspace</p>
+          <h2>Build a focused course in minutes.</h2>
+          <div className="insight-list">
+            {dashboardInsights.map((insight) => (
+              <article key={insight.title}>
+                <strong>{insight.title}</strong>
+                <span>{insight.description}</span>
+              </article>
+            ))}
           </div>
-          {backendAuth ? (
-            <p>
-              API accepted the current session using{' '}
-              <strong>{backendAuth.authMode}</strong> mode.
-            </p>
-          ) : (
-            <p>{backendAuthError || 'Checking backend auth status...'}</p>
-          )}
         </aside>
 
         <form className="prompt-card" onSubmit={handleSubmit}>
-          <label htmlFor="topic">What do you want to learn?</label>
+          <div className="prompt-card-header">
+            <div>
+              <p className="eyebrow">Course generator</p>
+              <label htmlFor="topic">What do you want to learn?</label>
+            </div>
+            <span>Try: {promptExamples[activePromptIndex]}</span>
+          </div>
           <div className="prompt-row">
             <input
               id="topic"
               type="text"
-              placeholder="Intro to React Hooks"
+              placeholder={promptExamples[activePromptIndex]}
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
               disabled={isGenerating}
@@ -120,6 +133,18 @@ function HomePage() {
             <button type="submit" disabled={isGenerating}>
               {isGenerating ? 'Generating...' : 'Generate Course'}
             </button>
+          </div>
+          <div className="prompt-suggestion-row" aria-label="Prompt suggestions">
+            {promptExamples.map((example) => (
+              <button
+                type="button"
+                key={example}
+                onClick={() => setTopic(example)}
+                disabled={isGenerating}
+              >
+                {example}
+              </button>
+            ))}
           </div>
           {error && <p className="error-message">{error}</p>}
         </form>
