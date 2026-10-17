@@ -3,6 +3,7 @@ import './App.css'
 import AppLayout from './layouts/AppLayout'
 import RequireAuth from './components/RequireAuth'
 import { AuthProvider } from './context/AuthContext'
+import AuthCallbackPage from './pages/AuthCallbackPage'
 import CourseDetailPage from './pages/CourseDetailPage'
 import CoursesPage from './pages/CoursesPage'
 import HomePage from './pages/HomePage'
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route
             element={
               <RequireAuth>

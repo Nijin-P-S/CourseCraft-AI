@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
         clientId={auth0ClientId}
         authorizationParams={{
           audience: auth0Audience || undefined,
-          redirect_uri: `${window.location.origin}/dashboard`,
+          redirect_uri: `${window.location.origin}/auth/callback`,
         }}
       >
         <Auth0AuthProvider>{children}</Auth0AuthProvider>
